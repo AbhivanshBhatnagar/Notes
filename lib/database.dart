@@ -14,14 +14,7 @@ class Database {
       "title": Title,
       "description": Description,
     };
-    await documentReferencer
-        .set(data)
-        .whenComplete(() => Dialog(
-              child: Text("Succesfully Added Note"),
-            ))
-        .catchError((e) => Dialog(
-              child: Text("Some Error Occured"),
-            ));
+    await documentReferencer.set(data);
   }
 
   static Stream<QuerySnapshot> readItems() {
@@ -35,27 +28,18 @@ class Database {
     required String Description,
     required String docId,
   }) async {
-    DocumentReference documentReferencer =
-        _collectionReference.doc(docId);
+    DocumentReference documentReferencer = _collectionReference.doc(docId);
 
     Map<String, dynamic> data = <String, dynamic>{
       "title": Title,
       "description": Description,
     };
 
-    await documentReferencer
-        .update(data)
-        .whenComplete(() => print("Note item updated in the database"))
-        .catchError((e) => print(e));
+    await documentReferencer.update(data);
   }
 
   static Future<void> deleteItem({required String docId}) async {
     DocumentReference documentReferencer = _collectionReference.doc(docId);
-    await documentReferencer
-        .delete()
-        .whenComplete(() => Dialog(
-              child: Text("Note Deleted Succesfully"),
-            ))
-        .catchError((e) => print(e));
+    await documentReferencer.delete();
   }
 }
