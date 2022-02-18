@@ -9,8 +9,7 @@ class Database {
   static String? UserID;
   static Future<void> addItem(
       {required String Title, required String Description}) async {
-    DocumentReference documentReferencer =
-        _collectionReference.doc(UserID).collection("notes").doc();
+    DocumentReference documentReferencer = _collectionReference.doc();
     Map<String, dynamic> data = <String, dynamic>{
       "title": Title,
       "description": Description,
@@ -32,16 +31,16 @@ class Database {
   }
 
   static Future<void> updateItem({
-    required String title,
-    required String description,
+    required String Title,
+    required String Description,
     required String docId,
   }) async {
     DocumentReference documentReferencer =
-        _collectionReference.doc(UserID).collection('items').doc(docId);
+        _collectionReference.doc(docId);
 
     Map<String, dynamic> data = <String, dynamic>{
-      "title": title,
-      "description": description,
+      "title": Title,
+      "description": Description,
     };
 
     await documentReferencer
@@ -51,15 +50,12 @@ class Database {
   }
 
   static Future<void> deleteItem({required String docId}) async {
-    DocumentReference documentReferencer =
-        _collectionReference.doc(UserID).collection("notes").doc(docId);
+    DocumentReference documentReferencer = _collectionReference.doc(docId);
     await documentReferencer
         .delete()
         .whenComplete(() => Dialog(
               child: Text("Note Deleted Succesfully"),
             ))
-        .catchError((e) => Dialog(
-              child: Text(e),
-            ));
+        .catchError((e) => print(e));
   }
 }
